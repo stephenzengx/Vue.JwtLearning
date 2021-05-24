@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import NewsList from '@/components/news/NewsList'
-import Home from '@/components/tabbar/Home.vue'
+import Home from '@/components/Home.vue'
 import Login from '@/components/Login.vue'
+import Menu from '@/components/Menu.vue'
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -40,9 +40,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/NewsList',
-      name: 'NewsList',
-      component: NewsList
+      path: '/Menu',
+      name: 'Menu',
+      component: Menu
     }
   ]
 })

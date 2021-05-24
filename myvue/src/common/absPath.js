@@ -1,6 +1,15 @@
 
 var asbPath = {
-    HomeListUrl: "TenantUser/ListByPage",
+    UserDedetail:"TenantUser/GetOne",
+    UserListUrl: "TenantUser/ListByPage",
+    UserAdd:"TenantUser/Post",
+    UserEdit:"TenantUser/Put",
+    UserDelete:"TenantUser/Delete",
+    TenantMenu: "Menu/TenantMenu",
+
+    SystemMenu: "Menu/SystemMenu",//admin
+
+
     LoginUrl: "System/Login",
     RegisterUrl: "System/Register",
     PubKey:"-----BEGIN PUBLIC KEY-----"+

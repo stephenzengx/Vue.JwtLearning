@@ -48,14 +48,12 @@ export default {
         var aesuncrypt_acount = jse.encrypt(this.form.userName)//加密账号
         var aesuncrypt_pwd = jse.encrypt(this.form.passWord)//加密密码
 
-        console.log(aesuncrypt_pwd);
-
         this.$http.post(this.$asbPath.LoginUrl, {
               userName: aesuncrypt_acount,
               passWord: aesuncrypt_pwd
           }).then(function(response){
               var data = response.data;
-              if (data.state>=0)
+              if (data.status>=0)
               {
                 that.$message("登录成功");
                 localStorage.setItem('Authorization', data.record);
@@ -84,7 +82,7 @@ export default {
           }).then(function(response){
               var data = response.data;
               var data = response.data;
-              if (data.state>=0)
+              if (data.status>=0)
               {
                 that.form.name = "";
                 that.form.password = ""; 
