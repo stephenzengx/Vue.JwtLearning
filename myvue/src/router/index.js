@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home.vue'
 import Login from '@/components/Login.vue'
-import Menu from '@/components/Menu.vue'
+import AdminHome from '@/components/AdminHome.vue'
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -40,9 +40,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/Menu',
-      name: 'Menu',
-      component: Menu
+      path: '/AdminHome',
+      name: 'AdminHome',
+      component: AdminHome
     }
   ]
 })

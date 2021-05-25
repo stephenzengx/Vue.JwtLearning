@@ -1,7 +1,7 @@
 <template>
    <div>
-      <el-button type="success" plain @click="handleAddClick">新增用户</el-button>
-
+      <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+      <el-button style="float: right;margin-right: 10%;" type="success" plain @click="handleAddClick">新增用户</el-button>
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="userId" label="用户id" width="180"> </el-table-column>
         <el-table-column prop="userName" label="联系方式" width="180"> </el-table-column>       
@@ -9,7 +9,6 @@
         <el-table-column prop="phone" label="手机号" width="180"> </el-table-column>
         <el-table-column prop="email" label="邮箱" width="180"> </el-table-column>
         <el-table-column prop="addTime" label="注册时间" width="180"> </el-table-column>
-
         <el-table-column label="操作" width="180">
             <template slot-scope="scope">
                 <el-button type="primary" @click="handleEditClick(scope.$index,scope.row)"  size="mini">编辑</el-button>
@@ -17,7 +16,7 @@
             </template>
         </el-table-column>
       </el-table>
-         
+        
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -106,6 +105,12 @@ export default {
   name: 'Home',
   data () {
     return {  
+      treeData: [],
+      defaultProps: {
+        children: 'children',
+        label: 'menuName'
+      },
+
       tableData:[],
       pageIndex: 1,
       pageSize : 20,
@@ -132,52 +137,47 @@ export default {
     }
   },
   mounted () {
-    var that = this;
-    this.$http
-      .get(this.$asbPath.UserListUrl,{
-        params: {
-          pageIndex: that.pageIndex,
-          pageSize: that.pageSize
-        }
-      })
-      .then(function(response){
-            var data = response.data;
-            if (data.status>=0)
-            {
-              that.totalCount = data.totalCount
-              that.tableData = data.record;             
-            }else{
-              that.$message(data.message);
-            }           
-        }
-      )
-      .catch(function (error) { // 请求失败处理
-        console.log(error);
-      });
+    this.loadTreeData();
+    this.loadData();
   },
   methods: {
+      handleNodeClick(data) {
+        console.log(data);
+      },
       //重载当前页面数据
       loadData(){
         var that = this;
         this.$http.get(this.$asbPath.UserListUrl,{
-              params: {
-                pageIndex: that.pageIndex,
-                pageSize: that.pageSize
-              }
-          })
-          .then(function(response){
-                var data = response.data;
-                if (data.status>=0)
-                {
-                  that.tableData = data.record;             
-                }else{
-                    that.$message(data.message);
-                }               
+            params: {
+              pageIndex: that.pageIndex,
+              pageSize: that.pageSize
             }
-          )
-          .catch(function (error) { // 请求失败处理
+        }).then(function(response){
+            var data = response.data;
+            if (data.status>=0)
+            {
+              that.tableData = data.record;             
+            }else{
+                that.$message(data.message);
+            }               
+        }).catch(function (error) { // 请求失败处理
             console.log(error);
-          });
+        });
+      },
+
+      loadTreeData(){
+        var that = this;
+        this.$http.get(this.$asbPath.AdminMenu)
+        .then(function(response){
+            var data = response.data;
+            if (data.status>=0){
+                that.treeData = data.record;             
+            }else{
+                that.$message(data.message);
+            }           
+        }).catch(function (error) { // 请求失败处理
+            console.log(error);
+        });
       },
 
       handleClose(done) {

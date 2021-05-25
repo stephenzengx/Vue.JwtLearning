@@ -8,6 +8,11 @@ const http = axios.create({
 
 //请求拦截 添加Authorization头
 http.interceptors.request.use(function (config) {
+    //后台管理系统接口 不需要传Token
+    var absPath = config.url;
+    if (config.url.indexOf("System") >=0 || config.url.indexOf("Admin") >=0)
+        return config;
+
     if(localStorage.getItem('Authorization')){
         config.headers.Authorization = localStorage.getItem('Authorization');
     }
@@ -18,10 +23,7 @@ http.interceptors.request.use(function (config) {
 
 //响应拦截
 http.interceptors.response.use( function (resp) {
-    console.log(resp);
-    // if(resp.data.isRefresh == 1){
-    //     localStorage.setItem('Authorization',  resp.data.token);      
-    // }
+    //console.log(resp);
 
     return resp;
 }, function (error) {
