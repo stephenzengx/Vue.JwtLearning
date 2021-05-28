@@ -1,6 +1,6 @@
 <template>
    <div>
-      <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+      <el-tree :data="treeData" style="width: 20%; background: #aed8ec;" default-expand-all :props="defaultProps" @node-click="handleNodeClick"></el-tree>
       <el-button style="float: right;margin-right: 10%;" type="success" plain @click="handleAddClick">新增用户</el-button>
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="userId" label="用户id" width="180"> </el-table-column>
@@ -108,7 +108,7 @@ export default {
       treeData: [],
       defaultProps: {
         children: 'children',
-        label: 'menuName'
+        label: 'nodeName'
       },
 
       tableData:[],
@@ -137,7 +137,7 @@ export default {
     }
   },
   mounted () {
-    this.loadTreeData();
+    //this.loadTreeData();
     this.loadData();
   },
   methods: {
@@ -156,6 +156,7 @@ export default {
             var data = response.data;
             if (data.status>=0)
             {
+              that.totalCount = data.totalCount;
               that.tableData = data.record;             
             }else{
                 that.$message(data.message);

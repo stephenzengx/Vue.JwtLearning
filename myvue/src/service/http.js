@@ -23,16 +23,19 @@ http.interceptors.request.use(function (config) {
 
 //响应拦截
 http.interceptors.response.use( function (resp) {
-    //console.log(resp);
+    console.log(111);
+    console.log(resp);
 
     return resp;
 }, function (error) {
-    if(error.response.httpCode == 401){
+    console.log(error.response);
+    var that = this;
+    if(error.response.status == 401){
         that.$message("token expire!");     
         setTimeout(function(){
          router.push('/Login');
         },2000)      
-    }else if(error.response.httpCode == 500) 
+    }else if(error.response.status == 500) 
     {
         that.$message("程序内部错误");
     }
