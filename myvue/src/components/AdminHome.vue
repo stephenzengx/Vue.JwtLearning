@@ -15,13 +15,6 @@
   export default {
     data() {
       return {
-        userInfo :{
-            tenantId:0,
-            userId:0,
-            userName:'',
-            roleId:'',
-            roleName:''
-        },
         treeData: [],
         defaultProps: {
           children: 'children',
@@ -30,8 +23,13 @@
       };
     },
     mounted () {
+      this.initData();
+    },
+
+    methods: {
+      initData(){
         var that = this;
-        this.$http.get(this.$asbPath.AdminMenu)
+        this.$http.get(this.$asbPath.AdminSystemMenuTree)
         .then(function(response){
             var data = response.data;
             if (data.status>=0){
@@ -42,29 +40,6 @@
         }).catch(function (error) { // 请求失败处理
             console.log(error);
         });
-
-        //this.getUserInfo();
-    },
-
-    methods: {
-      getUserInfo(){
-        var that = this;
-        this.$http.get(this.$asbPath.AdminMenu)
-        .then(function(response){
-            var record = response.data.record;
-            if (data.status>=0){
-                that.userInfo.userId = record.userId;
-                that.userInfo.userName = record.userName;
-                that.userInfo.roleId = record.roleId;
-                that.userInfo.roleName = record.roleName;                
-                that.userInfo.tenantId = record.tenantId;
-            }else{
-                that.$message(data.message);
-            }           
-        }).catch(function (error) { // 请求失败处理
-            console.log(error);
-        });
-
       },
       handleNodeClick(data) {
         console.log(data);

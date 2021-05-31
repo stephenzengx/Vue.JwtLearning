@@ -9,11 +9,10 @@ const http = axios.create({
 //请求拦截 添加Authorization头
 http.interceptors.request.use(function (config) {
     //后台管理系统接口 不需要传Token
-    var absPath = config.url;
     if (config.url.indexOf("System") >=0 || config.url.indexOf("Admin") >=0)
         return config;
 
-    if(localStorage.getItem('Authorization')){
+    if(localStorage.getItem('Authorization') != null){
         config.headers.Authorization = localStorage.getItem('Authorization');
     }
     return config
@@ -23,21 +22,15 @@ http.interceptors.request.use(function (config) {
 
 //响应拦截
 http.interceptors.response.use( function (resp) {
-    console.log(111);
-    console.log(resp);
-
     return resp;
 }, function (error) {
-    console.log(error.response);
-    var that = this;
     if(error.response.status == 401){
-        that.$message("token expire!");     
         setTimeout(function(){
          router.push('/Login');
         },2000)      
     }else if(error.response.status == 500) 
     {
-        that.$message("程序内部错误");
+        Promise.reject("程序内部错误");
     }
     return Promise.reject(error);
 });

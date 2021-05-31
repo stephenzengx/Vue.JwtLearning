@@ -137,8 +137,8 @@ export default {
     }
   },
   mounted () {
-    //this.loadTreeData();
     this.loadData();
+    this.loadTreeData();
   },
   methods: {
       handleNodeClick(data) {
@@ -168,7 +168,7 @@ export default {
 
       loadTreeData(){
         var that = this;
-        this.$http.get(this.$asbPath.AdminMenu)
+        this.$http.get(this.$asbPath.UserMenuTree)
         .then(function(response){
             var data = response.data;
             if (data.status>=0){
