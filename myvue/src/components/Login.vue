@@ -93,7 +93,7 @@ export default {
             }
           ).catch(function (error) { // 请求失败处理
             that.$message(error);   
-          });       
+        });       
       }
     }
 }

@@ -1,6 +1,5 @@
 
 var asbPath = {
-
     //system 接口
     LoginUrl: "System/Login",
     RegisterUrl: "System/Register",
@@ -15,8 +14,10 @@ var asbPath = {
     UserMenuTree:"Menu/UserMenuTree",//用户菜单树
   
     //后台admin接口
-    AdminSystemMenuTree: "Menu/AdminSystemMenuTree",
-    AdminRoleMenuIdList: "Menu/AdminRoleMenuIdList",
+    AdminSystemMenuTree: "Menu/AdminSystemMenuTree",//系统菜单树
+    AdminRoleAccessMenuIds: "Menu/AdminRoleAccessMenuIds",//角色授权菜单Id集合
+    AdminAuthMenuByIds:"Role/AdminAuthMenuByIds",//管理员给 角色授权菜单
+    AdminRoleList:"Role/AdminRoleList", //角色列表  
 
     //注意：业务接口和后台admin接口可能会共用一份接口. 即使功能类似，但为了区分权限，也要分开编写接口
     PubKey:"-----BEGIN PUBLIC KEY-----"+

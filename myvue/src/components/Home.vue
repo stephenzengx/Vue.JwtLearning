@@ -184,7 +184,7 @@ export default {
       handleClose(done) {
           done();
       },
-
+      //删除
       handleDelClick(index,row){
           var that = this;
           this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
