@@ -1,7 +1,7 @@
 <template>
    <div>
       <el-tree :data="treeData" style="width: 20%; background: #aed8ec;" default-expand-all :props="defaultProps" @node-click="handleNodeClick"></el-tree>
-      <el-button style="float: right;margin-right: 10%;" type="success" plain @click="handleAddClick">新增用户</el-button>
+      <el-button v-if="addRight==1" style="float: right;margin-right: 10%;" type="success" plain @click="handleAddClick">新增用户</el-button>
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="userId" label="用户id" width="180"> </el-table-column>
         <el-table-column prop="userName" label="联系方式" width="180"> </el-table-column>       
@@ -9,15 +9,15 @@
         <el-table-column prop="phone" label="手机号" width="180"> </el-table-column>
         <el-table-column prop="email" label="邮箱" width="180"> </el-table-column>
         <el-table-column prop="addTime" label="注册时间" width="180"> </el-table-column>
-        <el-table-column label="操作" width="180">
+        <el-table-column v-if="showOpColumn==1"  label="操作" width="180">
             <template slot-scope="scope">
-                <el-button type="primary" @click="handleEditClick(scope.$index,scope.row)"  size="mini">编辑</el-button>
-                <el-button type="danger" size="mini" @click="handleDelClick(scope.$index,scope.row)">删除</el-button>
+                <el-button v-if="updateRight==1" type="primary" @click="handleEditClick(scope.$index,scope.row)"  size="mini">编辑</el-button>
+                <el-button v-if="deleteRight==1" type="danger" size="mini" @click="handleDelClick(scope.$index,scope.row)">删除</el-button>
             </template>
         </el-table-column>
       </el-table>
         
-      <el-pagination
+      <el-pagination style="margin-top:20px;"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="pageIndex"
@@ -134,15 +134,39 @@ export default {
           phone : "",                             
           email :""   
       },
+      curMenuId : 5,
+      showOpColumn:0,
+      addRight:0,
+      updateRight:0,
+      deleteRight:0,
+      addTxt :"",
+      updateTxt:"",
+      deleteTxt:""     
     }
   },
   mounted () {
-    this.loadData();
     this.loadTreeData();
+    this.loadData();
   },
   methods: {
       handleNodeClick(data) {
         console.log(data);
+      },
+      //加载菜单树
+      loadTreeData(){
+        var that = this;
+        this.$http.get(this.$asbPath.UserMenuTree)
+        .then(function(response){
+            var data = response.data;
+            if (data.status>=0){
+                that.treeData = data.record;  
+                that.loadBtnRight(that.curMenuId);           
+            }else{
+                that.$message(data.message);
+            }           
+        }).catch(function (error) { // 请求失败处理
+            console.log(error);
+        });
       },
       //重载当前页面数据
       loadData(){
@@ -164,15 +188,36 @@ export default {
         }).catch(function (error) { // 请求失败处理
             console.log(error);
         });
-      },
-
-      loadTreeData(){
+      }, 
+      loadBtnRight(curMenuId)
+      {
         var that = this;
-        this.$http.get(this.$asbPath.UserMenuTree)
-        .then(function(response){
+        this.$http.get(this.$asbPath.UserMenuBtnRight,{
+          params:{
+            menuId:curMenuId
+          }
+        }).then(function(response){
             var data = response.data;
             if (data.status>=0){
-                that.treeData = data.record;             
+                data.record.forEach(function(value,index,array){
+                  if (value.btnId==1)
+                  {
+                    that.addRight = 1;
+                    that.addTxt = value.btnTxt;
+                  }                    
+                  else if (value.btnId==2)
+                  {
+                    that.updateRight = 1;
+                    that.updateTxt = value.btnTxt;
+                  }
+                  else if (value.btnId==3) {
+                    that.deleteRight = 1;
+                    that.deleteTxt = value.btnTxt;
+                  }
+                });     
+                if (that.updateRight==1 || that.deleteRight==1)
+                  that.showOpColumn = 1;
+
             }else{
                 that.$message(data.message);
             }           

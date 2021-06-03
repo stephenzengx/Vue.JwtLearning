@@ -43,6 +43,11 @@ export default new Router({
       path: '/AdminHome',
       name: 'AdminHome',
       component: AdminHome
+    },    
+    {
+      path: '/TestCss',
+      name: 'TestCss',
+      component: TestCss
     }
   ]
 })

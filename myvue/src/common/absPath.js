@@ -1,8 +1,10 @@
 
 var asbPath = {
     //system 接口
-    LoginUrl: "System/Login",
-    RegisterUrl: "System/Register",
+    LoginUrl: "System/Login", //登录
+    RegisterUrl: "System/Register", //注册  
+    UserMenuTree:"System/UserMenuTree",//用户菜单树
+    UserMenuBtnRight:"System/UserMenuBtnRight",//用户页面按钮权限
 
     //业务接口
     UserDedetail:"User/GetOne",
@@ -11,8 +13,6 @@ var asbPath = {
     UserEdit:"User/Put",
     UserDelete:"User/Delete",
 
-    UserMenuTree:"Menu/UserMenuTree",//用户菜单树
-  
     //后台admin接口
     AdminSystemMenuTree: "Menu/AdminSystemMenuTree",//系统菜单树
     AdminRoleAccessMenuIds: "Menu/AdminRoleAccessMenuIds",//角色授权菜单Id集合

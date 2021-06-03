@@ -2,7 +2,7 @@
   <div>
     <div class="Grid"> 
       <el-select @change="selectChanged" v-model="curRoleId"  placeholder="请选择">
-        <el-option
+        <el-option 
           v-for="item in roleInfoList"
           :key="item.roleId"
           :label="item.roleName"
@@ -43,7 +43,7 @@
         defaultProps: {
           children: 'children',
           label: 'nodeName'
-        },
+        }
       };
     },
     mounted () {
@@ -93,7 +93,7 @@
 
         this.$http.post(this.$asbPath.AdminAuthMenuByIds, {
           roleId: that.curRoleId,
-          selectMenuIds: that.$refs.tree.getCheckedKeys()
+          selectIds: that.$refs.tree.getCheckedKeys()
         }).then(function(response){
             var data = response.data;
             var data = response.data;

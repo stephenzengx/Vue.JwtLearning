@@ -9,7 +9,7 @@ const http = axios.create({
 //请求拦截 添加Authorization头
 http.interceptors.request.use(function (config) {
     //后台管理系统接口 不需要传Token
-    if (config.url.indexOf("System") >=0 || config.url.indexOf("Admin") >=0)
+    if (config.url.indexOf("Admin") >=0)
         return config;
 
     if(localStorage.getItem('Authorization') != null){
