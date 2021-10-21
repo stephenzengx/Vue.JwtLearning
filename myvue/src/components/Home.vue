@@ -145,8 +145,8 @@ export default {
     }
   },
   mounted () {
-    this.loadTreeData();
-    this.loadData();
+    // this.loadTreeData();
+    // this.loadData();
   },
   methods: {
       handleNodeClick(data) {
